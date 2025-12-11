@@ -28,17 +28,22 @@ async function proxyRequest(
 
     const options: RequestInit = {
       method,
-      headers: request.headers,
     };
 
     // Include body for POST requests
     if (method === 'POST') {
       const contentType = request.headers.get('content-type');
       if (contentType?.includes('multipart/form-data')) {
+        // For FormData, let fetch set the content-type with correct boundary
         options.body = await request.formData();
-      } else if (contentType?.includes('application/json')) {
+      } else {
+        // For other types, include headers and body
+        options.headers = request.headers;
         options.body = await request.text();
       }
+    } else {
+      // For GET requests, include headers
+      options.headers = request.headers;
     }
 
     const response = await fetch(url, options);
