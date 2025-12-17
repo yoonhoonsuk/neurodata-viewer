@@ -21,17 +21,19 @@ async def upload_file(file: UploadFile = File(...)):
         file_id = str(uuid.uuid4())
         file_name = f"{file_id}.pkl"
 
-        success = minio_client.upload_file(
-            file_name,
-            io.BytesIO(content),
-            len(content)
-        )
-
-        if not success:
-            print("MinIO upload failed")
-            raise HTTPException(status_code=500, detail="Failed to upload file to storage")
-
-        print(f"MinIO upload successful: {file_name}")
+        # Try to upload to MinIO, but continue even if it fails (for local development)
+        try:
+            success = minio_client.upload_file(
+                file_name,
+                io.BytesIO(content),
+                len(content)
+            )
+            if success:
+                print(f"MinIO upload successful: {file_name}")
+            else:
+                print("MinIO upload failed, continuing without MinIO (local mode)")
+        except Exception as e:
+            print(f"MinIO not available ({e}), continuing without MinIO (local mode)")
 
         metadata = waveform_loader.load_from_pickle(file_id, content)
         print(f"Metadata extracted: {metadata}")

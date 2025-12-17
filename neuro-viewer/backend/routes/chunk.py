@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Query
+from fastapi.responses import Response
 from services.waveform_loader import waveform_loader
-import base64
 import numpy as np
 
 router = APIRouter()
@@ -12,25 +12,36 @@ async def get_chunk(
     duration: int = Query(..., description="Number of samples to return")
 ):
     """
-    Get a chunk of waveform data
-    Returns base64-encoded float32 array
+    Get a chunk of waveform data as raw binary (float32).
+    More efficient than the old base64 approach.
+
+    Returns:
+        application/octet-stream: Raw float32 binary chunk
     """
     chunk = waveform_loader.get_chunk(file_id, start, duration)
 
     if chunk is None:
         raise HTTPException(status_code=404, detail="File not found")
 
-    # Convert to float32 and encode as base64
+    # Convert to float32 and return as binary
     chunk_float32 = chunk.astype(np.float32)
     chunk_bytes = chunk_float32.tobytes()
-    chunk_b64 = base64.b64encode(chunk_bytes).decode('utf-8')
 
-    return {
-        "samples": chunk_b64,
-        "start": start,
-        "length": len(chunk),
-        "encoding": "base64_float32"
+    metadata = waveform_loader.metadata.get(file_id, {})
+
+    headers = {
+        "Content-Type": "application/octet-stream",
+        "X-Start-Sample": str(start),
+        "X-Sample-Count": str(len(chunk)),
+        "X-Sample-Rate": str(metadata.get("sampling_rate", 30000)),
+        "X-Data-Type": "float32"
     }
+
+    return Response(
+        content=chunk_bytes,
+        headers=headers,
+        media_type="application/octet-stream"
+    )
 
 @router.get("/spikes/{file_id}")
 async def get_spikes(

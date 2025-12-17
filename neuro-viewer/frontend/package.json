@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "next": "14.1.0",
+    "pixi.js": "^7.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "pixi.js": "^7.3.2"
+    "uplot": "^1.6.32"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",

@@ -48,11 +48,32 @@ async function proxyRequest(
 
     const response = await fetch(url, options);
 
+    // Check if response is binary data (e.g., from /api/data endpoint)
+    const contentType = response.headers.get('content-type');
+    const isBinary = contentType?.includes('application/octet-stream');
+
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Request failed' }));
       return NextResponse.json(error, { status: response.status });
     }
 
+    // Handle binary responses (raw waveform data)
+    if (isBinary) {
+      const arrayBuffer = await response.arrayBuffer();
+
+      // Preserve all headers from backend
+      const headers = new Headers();
+      response.headers.forEach((value, key) => {
+        headers.set(key, value);
+      });
+
+      return new NextResponse(arrayBuffer, {
+        status: response.status,
+        headers,
+      });
+    }
+
+    // Handle JSON responses (metadata, upload results, etc.)
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {

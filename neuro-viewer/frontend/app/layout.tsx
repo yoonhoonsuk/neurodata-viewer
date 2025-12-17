@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Neuro Waveform Viewer',
@@ -12,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, padding: 0, backgroundColor: '#1a1a1a', color: '#ffffff' }}>
+      <body>
         {children}
       </body>
     </html>

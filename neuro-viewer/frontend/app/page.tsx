@@ -88,9 +88,9 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '40px', maxWidth: '1400px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '32px', marginBottom: '10px' }}>Neuro Waveform Viewer</h1>
-      <p style={{ color: '#888', marginBottom: '40px' }}>
+    <div style={{ padding: '40px', maxWidth: '1400px', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}>
+      <h1 style={{ fontSize: '32px', marginBottom: '10px', color: '#fff' }}>Neuro Waveform Viewer</h1>
+      <p style={{ color: '#fff', marginBottom: '40px' }}>
         Upload a .pkl file containing a NumPy array to visualize neural waveforms
       </p>
 
@@ -116,12 +116,12 @@ export default function Home() {
               style={{ display: 'none' }}
               id="file-input"
             />
-            <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
+            <label htmlFor="file-input" style={{ cursor: 'pointer', color: '#fff' }}>
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>📁</div>
               <div style={{ fontSize: '18px', marginBottom: '10px' }}>
                 {uploading ? 'Uploading...' : 'Drop your .pkl file here or click to browse'}
               </div>
-              <div style={{ fontSize: '14px', color: '#666' }}>
+              <div style={{ fontSize: '14px', color: '#fff', opacity: 0.7 }}>
                 NumPy array pickle files only
               </div>
             </label>
@@ -151,8 +151,8 @@ export default function Home() {
               marginBottom: '30px',
             }}
           >
-            <h2 style={{ fontSize: '20px', marginBottom: '15px' }}>File Metadata</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <h2 style={{ fontSize: '20px', marginBottom: '15px', color: '#fff' }}>File Metadata</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', color: '#fff' }}>
               <div>Length: {metadata.length.toLocaleString()} samples</div>
               <div>Sampling Rate: {metadata.sampling_rate.toLocaleString()} Hz</div>
               <div>Min: {metadata.min.toFixed(2)}</div>
@@ -161,9 +161,9 @@ export default function Home() {
             </div>
           </div>
 
-          <h2 style={{ fontSize: '20px', marginBottom: '15px' }}>Waveform Playback</h2>
-          <p style={{ color: '#888', marginBottom: '20px' }}>
-            Click Play to start playback. Drag the red threshold line to detect spikes.
+          <h2 style={{ fontSize: '20px', marginBottom: '15px', color: '#fff' }}>Waveform Playback</h2>
+          <p style={{ color: '#fff', marginBottom: '20px', opacity: 0.7 }}>
+            Adjust the threshold slider to detect spikes in real-time.
           </p>
 
           <WaveformViewer fileId={fileId} metadata={metadata} />

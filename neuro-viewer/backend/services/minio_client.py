@@ -6,21 +6,28 @@ import os
 
 class MinIOClient:
     def __init__(self):
-        self.client = Minio(
-            os.getenv("MINIO_ENDPOINT", "minio:9000"),
-            access_key=os.getenv("MINIO_ACCESS_KEY", "minioadmin"),
-            secret_key=os.getenv("MINIO_SECRET_KEY", "minioadmin"),
-            secure=False
-        )
+        self._client = None
         self.bucket_name = "neuro-data"
-        self._ensure_bucket()
+
+    @property
+    def client(self):
+        """Lazy initialization of MinIO client"""
+        if self._client is None:
+            self._client = Minio(
+                os.getenv("MINIO_ENDPOINT", "localhost:9000"),
+                access_key=os.getenv("MINIO_ACCESS_KEY", "minioadmin"),
+                secret_key=os.getenv("MINIO_SECRET_KEY", "minioadmin"),
+                secure=False
+            )
+            self._ensure_bucket()
+        return self._client
 
     def _ensure_bucket(self):
         try:
-            if not self.client.bucket_exists(self.bucket_name):
-                self.client.make_bucket(self.bucket_name)
+            if not self._client.bucket_exists(self.bucket_name):
+                self._client.make_bucket(self.bucket_name)
         except S3Error as e:
-            print(f"Error creating bucket: {e}")
+            print(f"MinIO not available: {e}")
 
     def upload_file(self, file_name: str, data: BinaryIO, length: int):
         try:

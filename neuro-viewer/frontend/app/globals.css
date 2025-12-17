@@ -1,0 +1,48 @@
+/* Global styles for Neuro Waveform Viewer */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* uPlot custom styling */
+.uplot {
+  font-family: Arial, sans-serif;
+}
+
+.uplot .u-title {
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.uplot .u-axis {
+  color: #fff;
+}
+
+.uplot .u-label {
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.uplot .u-value {
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.uplot .u-legend {
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.uplot .u-legend .u-series {
+  color: #fff;
+}
+
+/* Ensure all text in uPlot is white and uses Arial */
+.uplot text {
+  fill: #fff;
+  font-family: Arial, sans-serif;
+}
