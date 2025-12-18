@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import upload, metadata, chunk, data
+from routes import upload, metadata, data
 
 app = FastAPI(title="Neuro Waveform Viewer API")
 
@@ -14,7 +14,6 @@ app.add_middleware(
 
 app.include_router(upload.router, prefix="/api", tags=["upload"])
 app.include_router(metadata.router, prefix="/api", tags=["metadata"])
-app.include_router(chunk.router, prefix="/api", tags=["chunk"])
 app.include_router(data.router, prefix="/api", tags=["data"])
 
 @app.get("/")
