@@ -52,7 +52,6 @@ export class SpikeWorker {
     timeout: NodeJS.Timeout;
   }>();
 
-  /** Default timeout for spike detection (10 seconds) */
   private readonly DEFAULT_TIMEOUT = 10000;
 
   /**
@@ -62,7 +61,7 @@ export class SpikeWorker {
    */
   initialize(): void {
     if (this.worker) {
-      return; // Already initialized
+      return;
     }
 
     try {
@@ -94,7 +93,6 @@ export class SpikeWorker {
         break;
 
       case 'pong':
-        // Health check response
         console.log('[SpikeWorker] Health check OK');
         break;
 
@@ -103,17 +101,11 @@ export class SpikeWorker {
     }
   }
 
-  /**
-   * Handle Worker errors
-   */
   private handleError(error: ErrorEvent): void {
     console.error('[SpikeWorker] Worker error:', error);
     this.rejectRequest(new Error(error.message));
   }
 
-  /**
-   * Resolve pending request
-   */
   private resolveRequest(data: any): void {
     // Get the most recent pending request (FIFO)
     const [id, request] = Array.from(this.pendingRequests.entries())[0] || [];
@@ -125,9 +117,6 @@ export class SpikeWorker {
     }
   }
 
-  /**
-   * Reject pending request
-   */
   private rejectRequest(error: Error): void {
     // Reject the most recent pending request
     const [id, request] = Array.from(this.pendingRequests.entries())[0] || [];
@@ -170,10 +159,8 @@ export class SpikeWorker {
         reject(new Error(`Spike detection timeout after ${timeout}ms`));
       }, timeout);
 
-      // Store request
       this.pendingRequests.set(id, { resolve, reject, timeout: timeoutHandle });
 
-      // Send message to worker
       this.worker!.postMessage({
         type: 'detect',
         data,
@@ -210,12 +197,8 @@ export class SpikeWorker {
     });
   }
 
-  /**
-   * Terminate the Web Worker and clean up resources
-   */
   terminate(): void {
     if (this.worker) {
-      // Reject all pending requests
       this.pendingRequests.forEach(({ reject, timeout }) => {
         clearTimeout(timeout);
         reject(new Error('Worker terminated'));
@@ -229,16 +212,10 @@ export class SpikeWorker {
     }
   }
 
-  /**
-   * Get number of pending detection requests
-   */
   get pendingCount(): number {
     return this.pendingRequests.size;
   }
 
-  /**
-   * Check if worker is initialized
-   */
   get isInitialized(): boolean {
     return this.worker !== null;
   }

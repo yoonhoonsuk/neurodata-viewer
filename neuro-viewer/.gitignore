@@ -1,32 +1,167 @@
-node_modules/
+# ============================================================================
+# Python
+# ============================================================================
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 
-.env
-.env.local
-.env.*.local
-
-.next/
-out/
-
-*.pyc
-*.pyo
-*.pyd
+# Distribution / packaging
 .Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
 venv/
 env/
 ENV/
+.venv
 
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ============================================================================
+# Node.js / Next.js
+# ============================================================================
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js build output
+.next/
+out/
+
+# Production builds
+build/
+dist/
+
+# Testing
+coverage/
+
+# Misc
+.turbo
+
+# ============================================================================
+# Environment Variables
+# ============================================================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# Keep example files
+!.env.example
+!.env.local.example
+
+# ============================================================================
+# IDEs and Editors
+# ============================================================================
+# VSCode
 .vscode/
+*.code-workspace
+
+# JetBrains (PyCharm, WebStorm, IntelliJ)
 .idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
 *.swp
 *.swo
+*~
 
+# Emacs
+*~
+\#*\#
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ============================================================================
+# Operating System Files
+# ============================================================================
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
+# Linux
+*~
+
+# ============================================================================
+# Data Files (Neural recordings, test data)
+# ============================================================================
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.mat
+*.h5
+*.hdf5
+*.dat
+*.bin
+
+# Logs
+*.log
+logs/
+
+# ============================================================================
+# Docker / Infrastructure
+# ============================================================================
 minio_data/
+postgres_data/
+redis_data/
 
-.claude
-.devcontainer
+# ============================================================================
+# Temporary Files
+# ============================================================================
+*.tmp
+*.temp
+*.bak
+*.swp
+.cache/
+
+# ============================================================================
+# TypeScript
+# ============================================================================
+*.tsbuildinfo
+next-env.d.ts
